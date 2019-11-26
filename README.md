@@ -31,3 +31,10 @@ Proper title case:
 ## Acknowledgment
 
 This plugin uses [David Gouch’s implementation](https://github.com/gouch/to-title-case) of [John Gruber’s explanation](https://daringfireball.net/2008/05/title_case) of title case.
+
+## Implementation Details
+
+* ✅ Update text in one or multiple layers
+* ✅ Text Case preference in Figma is reset to Original
+* 🚫 Doesn’t support text selection within a layer
+* 🚫 Can’t work with text originally in uppercase
