@@ -1,12 +1,12 @@
 # Proper Title Case Plugin for Figma
 
-Format headlines and titles into a proper title case. The rules are based on style guides from APA, The Chicago Manual of Style, and modern conventions.
+Format headlines and titles into a proper title case. The rules are based on style guides from APA, The Chicago Manual of Style, and modern conventions. Established consistent capitalization in design mockups.
 
 ## But What About Built-In Title Case Option?
 
 Figma’s built-in Title Case option capitalizes the first letter of every word, which is incorrect as articles, conjunctions, short prepositions, and some other small words should not be capitalized.
 
-Incorrect capital case:
+Incorrect capitalized case:
 > From The Highest Heights To The Lowest Depths, In Photographs
 >
 > ‘Ford V Ferrari’ Finishes First At The Box Office
