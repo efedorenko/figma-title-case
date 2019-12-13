@@ -23,7 +23,7 @@ function convertTextToTitleCase(node: TextNode) {
     });
   } else if (!alertOnce) {
     alertOnce = true;
-    alert('Can’t modify text layer with multiple fonts.');
+    figma.notify('Can’t modify text layer with multiple fonts.');
   }
 }
 
@@ -32,10 +32,10 @@ for (const node of figma.currentPage.selection) {
     if (!node.hasMissingFont) {
       convertTextToTitleCase(node);
     } else {
-      alert('The font used in selected layer is missing.');
+      figma.notify('The font used in selected layer is missing.');
     }
   } else {
-    alert('Selected layer has no text.');
+    figma.notify('Selected layer has no text.');
   }
 }
 
