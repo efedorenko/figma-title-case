@@ -2,5 +2,6 @@
   "name": "Proper Title Case",
   "id": "776197163275203567",
   "api": "1.0.0",
-  "main": "dist/code.js"
+  "main": "dist/code.js",
+  "editorType": ["figma", "figjam"]
 }
