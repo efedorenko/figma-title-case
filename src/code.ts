@@ -20,11 +20,17 @@ function convertTextToTitleCase(node: TextNode) {
     figma.loadFontAsync(fontName).then(() => {
       node.textCase = 'ORIGINAL';
       node.characters = textInTitleCase;
+      figma.closePlugin();
     });
   } else if (!alertOnce) {
     alertOnce = true;
-    figma.notify('Can’t modify text layer with multiple fonts.');
+    closeOnProblem('Can’t modify text layer with multiple fonts.')
   }
+}
+
+function closeOnProblem(msg: string) {
+  figma.notify(msg);
+  figma.closePlugin();
 }
 
 for (const node of figma.currentPage.selection) {
@@ -32,11 +38,9 @@ for (const node of figma.currentPage.selection) {
     if (!node.hasMissingFont) {
       convertTextToTitleCase(node);
     } else {
-      figma.notify('The font used in selected layer is missing.');
+      closeOnProblem('The font used in selected layer is missing.');
     }
   } else {
-    figma.notify('Selected layer has no text.');
+    closeOnProblem('Selected layer has no text.');
   }
 }
-
-figma.closePlugin();
