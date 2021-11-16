@@ -33,14 +33,18 @@ function closeOnProblem(msg: string) {
   figma.closePlugin();
 }
 
-for (const node of figma.currentPage.selection) {
-  if (node.type === 'TEXT') {
-    if (!node.hasMissingFont) {
-      convertTextToTitleCase(node);
+if (figma.currentPage.selection.length) {
+  for (const node of figma.currentPage.selection) {
+    if (node.type === 'TEXT') {
+      if (!node.hasMissingFont) {
+        convertTextToTitleCase(node);
+      } else {
+        closeOnProblem('The font used in selected layer is missing.');
+      }
     } else {
-      closeOnProblem('The font used in selected layer is missing.');
+      closeOnProblem('Selected layer has no text.');
     }
-  } else {
-    closeOnProblem('Selected layer has no text.');
   }
+} else {
+  closeOnProblem('Select a text layer before running Proper Title Case.');
 }
