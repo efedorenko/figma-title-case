@@ -6,7 +6,6 @@ declare global {
   }
 }
 
-let alertOnce = false;
 let summary = {
   success: 0,
   fontProblem: 0,
@@ -28,8 +27,7 @@ async function convertTextToTitleCase(node: TextNode) {
       node.characters = textInTitleCase;
       summary.success++;
     });
-  } else if (!alertOnce) {
-    alertOnce = true;
+  } else {
     // Can’t modify text layer with multiple fonts.
     summary.fontProblem++;
   }
