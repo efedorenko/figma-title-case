@@ -45,7 +45,7 @@ function finish() {
       figma.notify('Proper Title Case applied.');
     }
     if (fontProblem) {
-      figma.notify('Can’t modify text layer with mixed or missing fonts.')
+      figma.notify('Can’t modify the text layer with mixed or missing fonts.')
     }
     if (noText) {
       figma.notify('Selected layer has no text.');
