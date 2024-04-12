@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Proper Title Case Plugin for Figma",
   "main": "dist/code",
-  "author": "Eugene Fedorenko <fedorenko@gmail.com>",
+  "author": "Eugene Fedorenko <hello@efedorenko.com>",
   "license": "MIT",
   "dependencies": {
     "@gouch/to-title-case": "^2.2.1",
