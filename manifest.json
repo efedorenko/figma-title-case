@@ -4,5 +4,8 @@
   "api": "1.0.0",
   "main": "dist/code.js",
   "editorType": ["figma", "figjam"],
-  "documentAccess": "dynamic-page"
+  "documentAccess": "dynamic-page",
+  "networkAccess": {
+    "allowedDomains": ["none"]
+  }
 }
