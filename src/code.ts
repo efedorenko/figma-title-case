@@ -59,6 +59,8 @@ function finish() {
       msg.push(`Proper Title Case applied to ${total} ${layer(total)}.`);
       if (success) {
         msg.push(`✅ ${success} converted.`);
+      } else {
+        msg.push(`❌ None converted.`);
       }
       if (fontProblem) {
         msg.push(`😵‍💫 ${fontProblem} ${has(fontProblem)} mixed/missing fonts.`);
