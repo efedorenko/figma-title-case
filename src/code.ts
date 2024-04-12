@@ -12,39 +12,40 @@ function isMixedFont(fontName: symbol | FontName): fontName is symbol {
   return (fontName as symbol) === figma.mixed;
 }
 
-function convertTextToTitleCase(node: TextNode) {
+async function convertTextToTitleCase(node: TextNode) {
   const textInTitleCase: string = node.characters.toTitleCase();
   const { fontName } = node;
 
   if (!isMixedFont(fontName)) {
-    figma.loadFontAsync(fontName).then(() => {
+    await figma.loadFontAsync(fontName).then(() => {
       node.textCase = 'ORIGINAL';
       node.characters = textInTitleCase;
-      figma.closePlugin();
     });
   } else if (!alertOnce) {
     alertOnce = true;
-    closeOnProblem('Can’t modify text layer with multiple fonts.')
+    figma.notify('Can’t modify text layer with multiple fonts.')
   }
 }
 
-function closeOnProblem(msg: string) {
-  figma.notify(msg);
-  figma.closePlugin();
-}
+let { selection } = figma.currentPage;
 
-if (figma.currentPage.selection.length) {
-  for (const node of figma.currentPage.selection) {
+if (selection.length) {
+  for (const [index, node] of selection.entries()) {
     if (node.type === 'TEXT') {
       if (!node.hasMissingFont) {
-        convertTextToTitleCase(node);
+        await convertTextToTitleCase(node);
       } else {
-        closeOnProblem('The font used in selected layer is missing.');
+        figma.notify('The font used in selected layer is missing.');
       }
     } else {
-      closeOnProblem('Selected layer has no text.');
+      figma.notify('Selected layer has no text.');
+    }
+
+    if (index === selection.length - 1) {
+      figma.closePlugin();
     }
   }
 } else {
-  closeOnProblem('Select a text layer before running Proper Title Case.');
+  figma.notify('Select a text layer before running Proper Title Case.');
+  figma.closePlugin();
 }
