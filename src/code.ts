@@ -7,6 +7,12 @@ declare global {
 }
 
 let alertOnce = false;
+let summary = {
+  success: 0,
+  fontProblem: 0,
+  noText: 0,
+};
+let { selection } = figma.currentPage;
 
 function isMixedFont(fontName: symbol | FontName): fontName is symbol {
   return (fontName as symbol) === figma.mixed;
@@ -20,14 +26,49 @@ async function convertTextToTitleCase(node: TextNode) {
     await figma.loadFontAsync(fontName).then(() => {
       node.textCase = 'ORIGINAL';
       node.characters = textInTitleCase;
+      summary.success++;
     });
   } else if (!alertOnce) {
     alertOnce = true;
-    figma.notify('Can’t modify text layer with multiple fonts.')
+    // Can’t modify text layer with multiple fonts.
+    summary.fontProblem++;
   }
 }
 
-let { selection } = figma.currentPage;
+function finish() {
+  const total = selection.length;
+  const { success, fontProblem, noText } = summary;
+
+  const layer = (num) => num === 1 ? 'layer' : 'layers';
+  const has = (num) => num === 1 ? 'has' : 'have';
+
+  if (total === 1) {
+    if (success) {
+      figma.notify('Proper Title Case applied.');
+    }
+    if (fontProblem) {
+      figma.notify('Can’t modify text layer with mixed or missing fonts.')
+    }
+    if (noText) {
+      figma.notify('Selected layer has no text.');
+    }
+  } else if (total === success) {
+    figma.notify(`Proper Title Case applied to ${total} text layers.`);
+  } else {
+      let msg = [];
+      msg.push(`Proper Title Case applied to ${total} ${layer(total)}.`);
+      if (success) {
+        msg.push(`✅ ${success} converted.`);
+      }
+      if (fontProblem) {
+        msg.push(`😵‍💫 ${fontProblem} ${has(fontProblem)} mixed/missing fonts.`);
+      }
+      if (noText) {
+        msg.push(`⏩ ${noText} ${has(noText)} no text.`);
+      }
+      figma.notify(msg.join(' '));
+  }
+}
 
 if (selection.length) {
   for (const [index, node] of selection.entries()) {
@@ -35,13 +76,16 @@ if (selection.length) {
       if (!node.hasMissingFont) {
         await convertTextToTitleCase(node);
       } else {
-        figma.notify('The font used in selected layer is missing.');
+        // The font used in selected layer is missing.
+        summary.fontProblem++;
       }
     } else {
-      figma.notify('Selected layer has no text.');
+      // Selected layer has no text.
+      summary.noText++;
     }
 
     if (index === selection.length - 1) {
+      finish();
       figma.closePlugin();
     }
   }
