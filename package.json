@@ -16,6 +16,6 @@
     "build": "webpack"
   },
   "devDependencies": {
-    "@figma/plugin-typings": "*"
+    "@figma/plugin-typings": "^1.108.0"
   }
 }
